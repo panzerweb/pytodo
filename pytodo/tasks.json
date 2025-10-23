@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "uuid": "4b3e3697-38a2-40fe-ad52-4e3aaf56c723",
+        "todo": "Task 1",
+        "created_at": "2025-10-18"
+    },
+    {
+        "id": 2,
+        "uuid": "34dc69dd-e482-4ad6-8165-2d7d46e59fc3",
+        "todo": "Task 2",
+        "created_at": "2025-10-18"
+    },
+    {
+        "id": 4,
+        "uuid": "b39974a0-1b79-494a-b75e-db0ccaf15269",
+        "todo": "Task 4",
+        "created_at": "2025-10-18"
+    },
+    {
+        "id": 6,
+        "uuid": "07ad4985-b7e1-4f1c-b54b-a02eaa9850de",
+        "todo": "Sample task on October 20,2025",
+        "created_at": "2025-10-20"
+    },
+    {
+        "id": 7,
+        "uuid": "aa54ab7e-1b4a-4c75-9f54-5db328b225e1",
+        "todo": "Answer networking pka files",
+        "created_at": "2025-10-21"
+    }
+]
