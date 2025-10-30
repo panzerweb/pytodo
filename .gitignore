@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore tasks.json
+pytodo/tasks.json
+
 # C extensions
 *.so
 
