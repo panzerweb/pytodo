@@ -10,7 +10,8 @@ def search_by_date(target_date, arr):
         for i, task in enumerate(result, start=1):
             print(Fore.YELLOW + f"📝 Task {i}")
             print(Fore.WHITE + f"   • Task ID     : {task['id']}")
-            print(f"   • Description : {task['todo']}")
+            print(f"   • Title : {task['todo']}")
+            print(f"   • Description : {task['description']}")
             print(f"   • Created At  : {task['created_at']}")
             print(Fore.CYAN + "──────────────────────────────────────────────")
         print(Fore.GREEN + Style.BRIGHT + f"\n✅ {len(result)} task(s) found for {target_date}\n")

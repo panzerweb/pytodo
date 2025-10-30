@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(__file__)  # directory of create.py
 TASK_FILE = os.path.join(BASE_DIR, '..', 'tasks.json')
 TASK_FILE = os.path.abspath(TASK_FILE)
 
-def create_list(todos, created_at):
+def create_list(todos, description, created_at):
     tasks = load_json(TASK_FILE)
 
     # Creates an AUTO_INCREMENTING Id
@@ -25,7 +25,7 @@ def create_list(todos, created_at):
     new_uuid = str(uuid.uuid4())
 
     # Logic to add list
-    new_list = List(new_id, new_uuid, todos, created_at)
+    new_list = List(new_id, new_uuid, todos, description, created_at)
     tasks.append(new_list.to_dict())
     save_list(tasks, TASK_FILE)
     

@@ -2,6 +2,7 @@ from pytodo.services.create import create_list
 from pytodo.services.fetch import *
 from pytodo.services.delete import delete_task
 from pytodo.services.search import search_by_date
+from pytodo.services.load import *
 from datetime import date
 from colorama import Fore, Style, init
 import os
@@ -33,31 +34,34 @@ def main():
         # Add a task
         elif chosen_input == 'add':
             task_input = input("Task name: ")
+            desc_input = input("Description: ")
 
-            create_list(task_input, str(current_date))
+            # Execute function
+            create_list(task_input, desc_input, str(current_date))
 
-        # View all tasks
+        # View all tasks for today
         elif chosen_input == 'view':
             tasks = load_json(TASK_FILE)
 
             if not tasks:
                 print(Fore.LIGHTBLACK_EX + "📭 No tasks yet.\n")
             else:
+                print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS FOR TODAY ═══════════════════════\n")
+
+                # Calls the function
+                view_task_today(tasks, current_date)
+
+        # View all tasks
+        elif chosen_input == 'view_all':
+            tasks = load_json(TASK_FILE)
+
+            if not tasks:
+                print(Fore.LIGHTBLACK_EX + "📭 You have no tasks at all.\n")
+            else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS ═══════════════════════\n")
 
-                today_tasks = [task for task in tasks if task["created_at"] == str(current_date)]
-
-                if today_tasks:
-                    for i, task in enumerate(today_tasks, start=1):
-                        print(Fore.YELLOW + f"🗓  Task {i}")
-                        print(Fore.WHITE + f"   • Task ID     : {task['id']}")
-                        print(f"   • Description : {task['todo']}")
-                        print(f"   • Created At  : {task['created_at']}")
-                        print(Fore.CYAN + "────────────────────────────────────────────────────────────")
-                    print(Fore.GREEN + Style.BRIGHT + f"\n✅ {len(today_tasks)} task(s) for today ({current_date})\n")
-                else:
-                    print(Fore.RED + "😴 No tasks for today.")
-                    print(Fore.LIGHTBLACK_EX + f"   Date checked: {current_date}\n")
+                # Calls the function
+                view_all(tasks)
 
         # Search task by date (yyyy-mm-dd)
         elif chosen_input == 'search':
@@ -65,6 +69,7 @@ def main():
 
             date_input: str = input("Enter date (yyyy-mm-dd): ")
 
+            # Calls the function
             search_by_date(date_input, tasks)
 
         # Delete a task by their id
@@ -76,6 +81,7 @@ def main():
             result = [task["id"] for task in tasks if task["id"] == int(id_input)]
 
             if result:
+                # Calls functions
                 delete_task(int(id_input), tasks)
                 save_list(tasks, TASK_FILE)
 
@@ -84,9 +90,12 @@ def main():
             else:
                 print(Fore.RED + f"No task found with that ID.")
 
+        # Show menu
+        elif chosen_input == 'help':
+            show_menu()
         # Else
         else:
-            print("⚠ Invalid command. Try 'add', 'view', 'search', 'delete' or 'quit'.")
+            print("⚠ Invalid command. Try 'add', 'view', 'view_all', 'search', 'delete', 'help' or 'quit'.")
 
 if __name__ == '__main__':
     main()
