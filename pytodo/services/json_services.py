@@ -1,8 +1,11 @@
 import json
 import os
 
+# This file will handle the saving and loading of data from
+# external files such as .json
+
 # Loads the JSON file
-def load_json(file_path):
+def load_json(file_path) -> list:
     if os.path.exists(file_path):
         with open(file_path, "r") as file:
             try:
@@ -14,11 +17,11 @@ def load_json(file_path):
     return []
 
 # Save the data to the JSON.file
-def save_list(tasks, file_path):
+def save_list(tasks, file_path) -> None:
     with open(file_path, 'w') as file:
         json.dump(tasks, file, indent=4)
 
 # Save the data to the backup JSON.file
-def save_backup(tasks, file_path):
+def save_backup(tasks, file_path) -> None:
     with open(file_path, 'w') as file:
         json.dump(tasks, file, indent=4)

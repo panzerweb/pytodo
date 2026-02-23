@@ -1,8 +1,8 @@
-from pytodo.services.create import create_list
-from pytodo.services.fetch import *
-from pytodo.services.delete import delete_task
-from pytodo.services.search import search_by_date
-from pytodo.services.load import *
+from pytodo.services.create_task import create_list
+from pytodo.services.json_services import *
+from pytodo.services.delete_task import delete_task
+from pytodo.services.search_task import search_by_date
+from pytodo.services.display_tasks import *
 from datetime import date
 from colorama import Fore, Style, init
 import os
@@ -15,8 +15,10 @@ init(autoreset=True)
 BASE_DIR = os.path.dirname(__file__)
 TASK_FILE = os.path.join(BASE_DIR, 'tasks.json')
 
-def main():
+# Global variable - Load JSON file and its data
+TASKS_LOADED = load_json(TASK_FILE)
 
+def main():
     # init
     clear_screen()
     show_title()
@@ -25,8 +27,15 @@ def main():
     # Sets current date
     current_date = date.today()
 
+    # Show Once the tasks yesterday
+    print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS YESTERDAY ═══════════════════════\n")
+
+    view_yesterday(TASKS_LOADED, current_date)
+
+    print(Fore.CYAN + Style.BRIGHT + "\n════════════════════════════════════════════════════════════════════\n")
+
     while True:
-        chosen_input = input("\nYou: ").strip().lower()
+        chosen_input = input("\nYour Command: ").strip().lower()
 
         if chosen_input == 'quit':
             break
@@ -41,49 +50,51 @@ def main():
 
         # View all tasks for today
         elif chosen_input == 'view':
-            tasks = load_json(TASK_FILE)
-
-            if not tasks:
+            if not TASKS_LOADED:
                 print(Fore.LIGHTBLACK_EX + "📭 No tasks yet.\n")
             else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS FOR TODAY ═══════════════════════\n")
 
                 # Calls the function
-                view_task_today(tasks, current_date)
+                view_task_today(TASKS_LOADED, current_date)
 
         # View all tasks
         elif chosen_input == 'view_all':
-            tasks = load_json(TASK_FILE)
-
-            if not tasks:
+            if not TASKS_LOADED:
                 print(Fore.LIGHTBLACK_EX + "📭 You have no tasks at all.\n")
             else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS ═══════════════════════\n")
 
                 # Calls the function
-                view_all(tasks)
+                view_all(TASKS_LOADED)
+        
+        # View all tasks yesterday
+        elif chosen_input == 'yest_view':
+            if not TASKS_LOADED:
+                print(Fore.LIGHTBLACK_EX + "📭 You have no tasks yesterday.\n")
+            else:
+                print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS YESTERDAY ═══════════════════════\n")
+
+                # Calls the function
+                view_yesterday(TASKS_LOADED, current_date)
 
         # Search task by date (yyyy-mm-dd)
         elif chosen_input == 'search':
-            tasks = load_json(TASK_FILE)
-
             date_input: str = input("Enter date (yyyy-mm-dd): ")
 
             # Calls the function
-            search_by_date(date_input, tasks)
+            search_by_date(date_input, TASKS_LOADED)
 
         # Delete a task by their id
         elif chosen_input == 'delete':
-            tasks = load_json(TASK_FILE)
-
             id_input = input("Enter id: ")
 
-            result = [task["id"] for task in tasks if task["id"] == int(id_input)]
+            result = [task["id"] for task in TASKS_LOADED if task["id"] == int(id_input)]
 
             if result:
                 # Calls functions
-                delete_task(int(id_input), tasks)
-                save_list(tasks, TASK_FILE)
+                delete_task(int(id_input), TASKS_LOADED)
+                save_list(TASKS_LOADED, TASK_FILE)
 
                 print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} deleted successfully ═══════════════\n")
 
@@ -95,7 +106,7 @@ def main():
             show_menu()
         # Else
         else:
-            print("⚠ Invalid command. Try 'add', 'view', 'view_all', 'search', 'delete', 'help' or 'quit'.")
+            print("⚠ Invalid command. Try 'add', 'view', 'view_all', 'yest_view', 'search', 'delete', 'help' or 'quit'.")
 
 if __name__ == '__main__':
     main()

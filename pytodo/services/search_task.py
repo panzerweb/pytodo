@@ -2,7 +2,7 @@ from colorama import Fore, Style, init
 init(autoreset=True)
 
 # Search by yyyy-mm-dd
-def search_by_date(target_date, arr):
+def search_by_date(target_date: str, arr: list) -> None:
     result = [task for task in arr if task["created_at"] == target_date]
 
     if result:

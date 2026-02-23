@@ -1,7 +1,7 @@
 
 # Linear Search for deletion
 # Returns the array to save list
-def delete_task(target, arr):
+def delete_task(target: int, arr: list) -> list:
     for i, task in enumerate(arr):
         if task["id"] == target:
             arr.pop(i)

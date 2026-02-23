@@ -132,3 +132,4 @@ cython_debug/
 # OS files
 .DS_Store
 Thumbs.db
+pytodo/backup.json
