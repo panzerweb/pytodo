@@ -3,11 +3,13 @@ from pytodo.services.json_services import *
 from pytodo.services.delete_task import delete_task
 from pytodo.services.search_task import search_by_date
 from pytodo.services.display_tasks import *
+from pytodo.services.update_task import update_task
 from datetime import date
 from colorama import Fore, Style, init
 import os
 
 from pytodo.menu import *
+from pytodo.utils.commands import *
 
 init(autoreset=True)
 
@@ -47,6 +49,22 @@ def main():
 
             # Execute function
             create_list(task_input, desc_input, str(current_date))
+
+        # Edit a task
+        elif chosen_input == 'edit_task':
+            id_input = input("Enter id: ")
+
+            result = [task["id"] for task in TASKS_LOADED if task["id"] == int(id_input)]
+
+            if result:
+                new_todo = input("Enter new todo: ")
+                new_description = input("Enter new description: ")
+
+                update_task(int(id_input), new_todo, new_description)
+                print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} updated successfully ═══════════════\n")
+
+            else:
+                print(Fore.RED + f"No task found with that ID.")
 
         # View all tasks for today
         elif chosen_input == 'view':
@@ -103,10 +121,10 @@ def main():
 
         # Show menu
         elif chosen_input == 'help':
-            show_menu()
+            show_commands()
         # Else
         else:
-            print("⚠ Invalid command. Try 'add', 'view', 'view_all', 'yest_view', 'search', 'delete', 'help' or 'quit'.")
+            print("⚠ Invalid command. Try 'add', 'edit_task', 'view', 'view_all', 'yest_view', 'search', 'delete', 'help' or 'quit'.")
 
 if __name__ == '__main__':
     main()
