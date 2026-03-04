@@ -1,5 +1,5 @@
 from pytodo.services.create_task import create_list
-from pytodo.services.json_services import *
+from pytodo.json_services import *
 from pytodo.services.delete_task import delete_task
 from pytodo.services.search_task import search_by_date
 from pytodo.services.display_tasks import *
@@ -18,9 +18,11 @@ BASE_DIR = os.path.dirname(__file__)
 TASK_FILE = os.path.join(BASE_DIR, 'tasks.json')
 
 # Global variable - Load JSON file and its data
-TASKS_LOADED = load_json(TASK_FILE)
+# TASKS_LOADED = load_json(TASK_FILE)
+
 
 def main():
+    TASKS_LOADED = load_tasks()
     # init
     clear_screen()
     show_title()
@@ -49,82 +51,94 @@ def main():
 
             # Execute function
             create_list(task_input, desc_input, str(current_date))
-
         # Edit a task
         elif chosen_input == 'edit_task':
-            id_input = input("Enter id: ")
+            try:
+                refreshed_tasks = load_tasks()
+                id_input = input("Enter id: ")
 
-            result = [task["id"] for task in TASKS_LOADED if task["id"] == int(id_input)]
+                result = [task["id"] for task in refreshed_tasks if task["id"] == int(id_input)]
 
-            if result:
-                new_todo = input("Enter new todo: ")
-                new_description = input("Enter new description: ")
+                if result:
+                    new_todo = input("Enter new todo: ")
+                    new_description = input("Enter new description: ")
 
-                update_task(int(id_input), new_todo, new_description)
-                print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} updated successfully ═══════════════\n")
-
-            else:
-                print(Fore.RED + f"No task found with that ID.")
+                    update_task(refreshed_tasks, int(id_input), new_todo, new_description)
+                    save_tasks(refreshed_tasks)
+                    print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} updated successfully ═══════════════\n")
+                else:
+                    print(Fore.RED + f"No task found with that ID.")
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
 
         # View all tasks for today
         elif chosen_input == 'view':
-            if not TASKS_LOADED:
+            refreshed_tasks = load_tasks()
+            if not refreshed_tasks:
                 print(Fore.LIGHTBLACK_EX + "📭 No tasks yet.\n")
             else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS FOR TODAY ═══════════════════════\n")
 
                 # Calls the function
-                view_task_today(TASKS_LOADED, current_date)
+                view_task_today(refreshed_tasks, current_date)
 
         # View all tasks
         elif chosen_input == 'view_all':
-            if not TASKS_LOADED:
+            refreshed_tasks = load_tasks()
+            if not refreshed_tasks:
                 print(Fore.LIGHTBLACK_EX + "📭 You have no tasks at all.\n")
             else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS ═══════════════════════\n")
 
                 # Calls the function
-                view_all(TASKS_LOADED)
+                view_all(refreshed_tasks)
         
         # View all tasks yesterday
         elif chosen_input == 'yest_view':
-            if not TASKS_LOADED:
+            refreshed_tasks = load_tasks()
+            if not refreshed_tasks:
                 print(Fore.LIGHTBLACK_EX + "📭 You have no tasks yesterday.\n")
             else:
                 print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS YESTERDAY ═══════════════════════\n")
 
                 # Calls the function
-                view_yesterday(TASKS_LOADED, current_date)
+                view_yesterday(refreshed_tasks, current_date)
 
         # Search task by date (yyyy-mm-dd)
-        elif chosen_input == 'search':
+        elif chosen_input == 'search_date':
+            refreshed_tasks = load_tasks()
             date_input: str = input("Enter date (yyyy-mm-dd): ")
 
             # Calls the function
-            search_by_date(date_input, TASKS_LOADED)
+            search_by_date(date_input, refreshed_tasks)
 
         # Delete a task by their id
         elif chosen_input == 'delete':
-            id_input = input("Enter id: ")
+            try:
+                refreshed_tasks = load_tasks()
+                id_input = input("Enter id: ")
 
-            result = [task["id"] for task in TASKS_LOADED if task["id"] == int(id_input)]
+                result = [task["id"] for task in refreshed_tasks if task["id"] == int(id_input)]
 
-            if result:
-                # Calls functions
-                delete_task(int(id_input), TASKS_LOADED)
-                save_list(TASKS_LOADED, TASK_FILE)
+                if result:
+                    # Calls functions
+                    delete_task(int(id_input), refreshed_tasks)
+                    # save_list(TASKS_LOADED, TASK_FILE)
+                    save_tasks(refreshed_tasks)
 
-                print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} deleted successfully ═══════════════\n")
+                    print(Fore.GREEN + Style.BRIGHT + f"\n═══════════════ Task Id: {id_input} deleted successfully ═══════════════\n")
 
-            else:
-                print(Fore.RED + f"No task found with that ID.")
+                else:
+                    print(Fore.RED + f"No task found with that ID.")            
+            except ValueError:
+                print("Invalid input! Please enter a valid integer.")
 
         # Show menu
         elif chosen_input == 'help':
             show_commands()
         # Else
         else:
-            print("⚠ Invalid command. Try 'add', 'edit_task', 'view', 'view_all', 'yest_view', 'search', 'delete', 'help' or 'quit'.")
+            print("⚠ Invalid command. Try 'add', 'edit_task', 'view', 'view_all', 'yest_view', 'search_date', 'delete', 'help' or 'quit'.")
 
 if __name__ == '__main__':
     main()
