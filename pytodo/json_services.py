@@ -25,8 +25,12 @@ def load_tasks():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
             try:
-                return json.load(f)
-            except json.JSONDecodeError:
+                tasks = json.load(f)
+                for t in tasks:
+                    assert "id" in t and "todo" in t and "description" in t and "created_at" in t
+                return tasks
+            except (json.JSONDecodeError, FileNotFoundError, AssertionError):
+                print("File corrupted. Starting fresh")
                 return []
         
     return []

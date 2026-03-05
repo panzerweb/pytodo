@@ -25,6 +25,20 @@ def view_task_today(arr: list, current_date: str) -> None:
         print(Fore.RED + "😴 No tasks for today.")
         print(Fore.LIGHTBLACK_EX + f"   Date checked: {current_date}\n")
 
+# Displays today stats
+def today_tasks_count(arr: list, current_date: str) -> None:
+    today_tasks = [task for task in arr if task["created_at"] == str(current_date)]
+
+    print(f"Good day!")
+    print(f"\n📅 Tasks for {current_date}")
+    print("-" * 30)
+
+    if not today_tasks:
+        print("✅ No tasks scheduled for today. Type 'add' to create some task")
+        return
+
+    print(f"📝 You have {len(today_tasks)} task(s) today. Stay focused!")
+
 # Load all tasks
 def view_all(arr: list) -> None:
     all_tasks = [task for task in arr]

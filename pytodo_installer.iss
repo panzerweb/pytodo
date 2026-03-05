@@ -10,16 +10,18 @@ OutputDir=.
 OutputBaseFilename=PyTodoInstaller
 Compression=lzma
 SolidCompression=yes
+SetupIconFile=icon.ico
 
 [Files]
 Source: "dist\pytodo.exe"; DestDir: "{app}"
+Source: "icon.ico"; DestDir: "{app}"   ;
 
 [Icons]
-Name: "{group}\PyTodo"; Filename: "{app}\pytodo.exe"
-Name: "{commondesktop}\PyTodo"; Filename: "{app}\pytodo.exe"
+Name: "{group}\PyTodo"; Filename: "{app}\pytodo.exe"; IconFilename: "{app}\icon.ico"
+Name: "{commondesktop}\PyTodo"; Filename: "{app}\pytodo.exe"; IconFilename: "{app}\icon.ico"
 
 [Tasks]
 Name: "startup"; Description: "Run PyTodo at Windows Startup"; GroupDescription: "Additional Tasks:";
 
 [Icons]
-Name: "{userstartup}\PyTodo"; Filename: "{app}\pytodo.exe"; Tasks: startup
+Name: "{userstartup}\PyTodo"; Filename: "{app}\pytodo.exe"; Tasks: startup; IconFilename: "{app}/icon.ico"

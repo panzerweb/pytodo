@@ -32,9 +32,10 @@ def main():
     current_date = date.today()
 
     # Show Once the tasks yesterday
-    print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS YESTERDAY ═══════════════════════\n")
+    print(Fore.CYAN + Style.BRIGHT + "\n═══════════════════════ YOUR TASKS TODAY ═══════════════════════\n")
 
-    view_yesterday(TASKS_LOADED, current_date)
+    # view_yesterday(TASKS_LOADED, current_date)
+    today_tasks_count(TASKS_LOADED, current_date)
 
     print(Fore.CYAN + Style.BRIGHT + "\n════════════════════════════════════════════════════════════════════\n")
 
