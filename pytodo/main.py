@@ -40,7 +40,7 @@ def main():
     print(Fore.CYAN + Style.BRIGHT + "\n════════════════════════════════════════════════════════════════════\n")
 
     while True:
-        chosen_input = input("\nYour Command: ").strip().lower()
+        chosen_input = input(Fore.CYAN + f"\nYour Command: ").strip().lower()
 
         if chosen_input == 'quit':
             break

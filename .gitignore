@@ -133,3 +133,4 @@ cython_debug/
 .DS_Store
 Thumbs.db
 pytodo/backup.json
+"*.exe" 
