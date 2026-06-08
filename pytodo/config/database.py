@@ -7,17 +7,17 @@ def activateDb():
             cursor = connection.cursor()
 
             # Let's create the table tasks
-            # create_table_query = '''
-            # CREATE TABLE IF NOT EXISTS tasks (
-            #     id INTEGER PRIMARY KEY AUTOINCREMENT,
-            #     name TEXT NOT NULL DEFAULT '',
-            #     description TEXT NOT NULL DEFAULT '',
-            #     category TEXT NOT NULL DEFAULT '',
-            #     status TEXT NOT NULL DEFAULT 'incomplete',
-            #     CHECK (status IN ('complete', 'incomplete')),
-            #     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            # );
-            # '''
+            create_table_query = '''
+            CREATE TABLE IF NOT EXISTS tasks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL DEFAULT '',
+                description TEXT NOT NULL DEFAULT '',
+                category TEXT NOT NULL DEFAULT '',
+                status TEXT NOT NULL DEFAULT 'incomplete',
+                CHECK (status IN ('complete', 'incomplete')),
+                created_at DATE NOT NULL DEFAULT CURRENT_DATE
+            );
+            '''
 
             # Only use this to alter a table and comment other query
             # alter_query = '''
@@ -25,14 +25,14 @@ def activateDb():
             # ADD COLUMN created_at DATE NOT NULL DEFAULT CURRENT_DATE;
             # '''
 
-            # create_index_query = '''
-            # CREATE INDEX IF NOT EXISTS idx_task_status 
-            # ON tasks(status);
-            # '''
+            create_index_query = '''
+            CREATE INDEX IF NOT EXISTS idx_task_status 
+            ON tasks(status);
+            '''
 
-            # cursor.execute(create_table_query)
+            cursor.execute(create_table_query)
             # cursor.execute(alter_query)
-            # cursor.execute(create_index_query)
+            cursor.execute(create_index_query)
 
             connection.commit()
 

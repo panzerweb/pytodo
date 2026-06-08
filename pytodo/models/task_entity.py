@@ -1,22 +1,27 @@
 from datetime import date
+from dataclasses import dataclass, asdict
 
+@dataclass
 class TaskEntity:
-     # Initializes data models for class task
-    def __init__(self, name: str, description: str, category: str, created_at: date,status='incomplete', id: int | None = None):
-        self.id = id
+    name: str | None = None
+    category: str | None = None
+    created_at: date = date.today()
+    description: str | None = None
+    status: str = "incomplete"
+    id: int | None = None
+
+    def to_dict(self):
+        return asdict(self)
+    
+class TaskUpdateDTO:
+    def __init__(self,
+        name: str | None = None,
+        description: str | None = None,
+        category: str | None = None,
+        status: str | None = None,
+    ):
         self.name = name
         self.description = description
         self.category = category
         self.status = status
-        self.created_at = created_at
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "category": self.category,
-            "status": self.status,
-            "created_at": self.created_at
-        }
-    
+        
