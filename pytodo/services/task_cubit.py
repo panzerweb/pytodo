@@ -1,6 +1,6 @@
-from pytodo.models.task_entity import TaskEntity, TaskUpdateDTO
+from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
 from pytodo.json_services import *
-from pytodo.data.app_services import create, read, update, delete
+from pytodo.data.app_services import create, bulkCreate, read, update, delete
 from pytodo.utils.object_cleaner import clean
 from datetime import date, timedelta
 from colorama import Fore, Style, init
@@ -16,12 +16,24 @@ def createTask(taskName: str, description: str, category: str) -> None:
         print("Please fill all the fields required")
         return
     
-    taskEntity: TaskEntity = TaskEntity(taskName, category, current_date, description)
+    taskEntity: TaskCreateDTO = TaskCreateDTO(taskName, description, category,)
 
     if create(taskEntity):
         print("Successfully created task")
     else:
         print("Task creation failed")
+
+# Bulk add cubit
+def bulkAddTasks(arrayOfTasks: list[TaskCreateDTO]) -> None:
+
+    if len(arrayOfTasks) == 0:
+        print("You have not added tasks")
+        return
+    
+    if bulkCreate(arrayOfTasks):
+        print(f"Successfully added {len(arrayOfTasks)} tasks")
+    else:
+        print("Bulk Creation Failed")
 
 # Reading all tasks cubit
 def readAllTask() -> None:

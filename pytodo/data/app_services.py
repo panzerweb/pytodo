@@ -1,4 +1,4 @@
-from pytodo.models.task_entity import TaskEntity, TaskUpdateDTO
+from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
 from typing import List
 from datetime import date
 import sqlite3
@@ -6,17 +6,17 @@ import sqlite3
 DATABASE_NAME: str = 'pytodo.db'
 
 # Create module
-def create(task: TaskEntity) -> bool:
+def create(task: TaskCreateDTO) -> bool:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:
             cursor = connection.cursor()
 
             insert_query = '''
-            INSERT INTO tasks (name, category, description, status)
+            INSERT INTO tasks (name, description, category, status)
             VALUES (?,?,?,?);
             '''
 
-            data = (task.name, task.category, task.description, task.status)
+            data = (task.name, task.description, task.category, task.status)
 
             cursor.execute(insert_query, data)    
 
@@ -32,7 +32,33 @@ def create(task: TaskEntity) -> bool:
     except Exception as e:
         print(f"Unexpected error: {e}")
         return False
-    
+
+# Bulk Create of Tasks
+def bulkCreate(tasks: List[TaskCreateDTO]):
+    try:
+        with sqlite3.connect(DATABASE_NAME) as connection:
+            cursor = connection.cursor()
+
+            bulk_add_query = """
+            INSERT INTO tasks (name, description, category, status)
+            VALUES (?,?,?,?)
+            """
+
+            parsedTasks = [tuple(task.__dict__.values()) for task in tasks]
+
+            cursor.executemany(bulk_add_query, parsedTasks)
+
+            connection.commit()
+            
+            return True
+    except sqlite3.Error as e:
+        print(f"Tasks creation error: {e}")
+        return False
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return False
+
+# Reading of tasks with optional parameters
 def read(dateParams = None) -> List[TaskEntity]:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:
@@ -42,7 +68,7 @@ def read(dateParams = None) -> List[TaskEntity]:
 
             print(f"Passed date: {parseDate}")
 
-            select_query = "SELECT * FROM tasks WHERE created_at = ?" if parseDate is not None else "SELECT * FROM tasks;"
+            select_query = "SELECT * FROM tasks WHERE created_at = ? ORDER BY created_at DESC" if parseDate is not None else "SELECT * FROM tasks ORDER BY created_at DESC;"
 
             cursor.execute(select_query, (parseDate,) if parseDate is not None else ())
 
@@ -63,6 +89,7 @@ def read(dateParams = None) -> List[TaskEntity]:
         print(f"Unexpected error: {e}")
         return []
     
+# Update of tasks today
 def updateTaskToday(status: str, dateParams = None) -> str:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:
@@ -74,7 +101,7 @@ def updateTaskToday(status: str, dateParams = None) -> str:
             UPDATE tasks SET status = ? WHERE created_at = ?
             """
 
-            cursor.execute(update_query, (status, dateParams))
+            cursor.execute(update_query, (status, parseDate))
 
             if cursor.rowcount > 0:
                 return "Tasks today updated successfully"
@@ -88,6 +115,7 @@ def updateTaskToday(status: str, dateParams = None) -> str:
         print(f"Unexpected error: {e}")
         return "Unexpected error"
 
+# Update a task
 def update(taskId: int, task: TaskUpdateDTO) -> str:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:
@@ -141,6 +169,7 @@ def update(taskId: int, task: TaskUpdateDTO) -> str:
         print(f"Unexpected error: {e}")
         return "Unexpected error"
 
+# Delete a task
 def delete(taskId: int) -> bool:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:

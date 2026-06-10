@@ -13,6 +13,19 @@ class TaskEntity:
     def to_dict(self):
         return asdict(self)
     
+class TaskCreateDTO:
+    def __init__(self,
+        name: str | None = None,
+        description: str | None = None,
+        category: str | None = None,
+        status: str = "incomplete",
+    ):
+        self.name = name
+        self.description = description
+        self.category = category
+        self.status = status
+        
+    
 class TaskUpdateDTO:
     def __init__(self,
         name: str | None = None,
