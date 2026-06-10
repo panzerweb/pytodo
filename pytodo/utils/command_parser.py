@@ -1,76 +1,11 @@
+from pytodo.utils.commands import COMMANDS
+
 def parse_command(text: str) -> str | None:
-    text = text.lower()
+    text = text.lower().strip()
 
-    command_keywords = {
-        "add": [
-            "add",
-            "create",
-            "new",
-            "insert"
-        ],
-
-        "update": [
-            "update",
-            "edit",
-            "modify"
-        ],
-
-        "read": [
-            "read",
-            "show",
-            "list",
-            "display",
-            "view"
-        ],
-
-        "delete": [
-            "delete",
-            "remove",
-            "erase"
-        ],
-
-        "toggle": [
-            "toggle",
-            "complete",
-            "incomplete",
-            "finish"
-        ],
-
-        "bulk_add": [
-            "bulk",
-            "multiple"
-        ],
-
-        "search_date": [
-            "search",
-            "find date"
-        ],
-
-        "days_ago": [
-            "yesterday",
-            "days ago"
-        ],
-
-        "stats": [
-            "stats",
-            "statistics"
-        ],
-
-        "help": [
-            "help",
-            "commands"
-        ],
-
-        "quit": [
-            "quit",
-            "exit",
-            "close"
-        ]
-    }
-
-    for command, keywords in command_keywords.items():
-        for keyword in keywords:
+    for command in COMMANDS:
+        for keyword in command.natural_lang:
             if keyword in text:
-                return command
+                return command.action
 
     return None

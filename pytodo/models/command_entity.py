@@ -4,3 +4,4 @@ from dataclasses import dataclass
 class CommandDictionary:
     action: str
     description: str
+    natural_lang: list[str]

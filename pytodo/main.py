@@ -26,6 +26,7 @@ def main():
     show_commands()
 
     # Activate Voice Command Module
+    print("Voice Mode uses Google Web Speech API, so it is not suitable for offline usage")
     voice_mode = (input("Enable voice mode (y/n): ").lower().strip() == "y")
 
     # Show Once the tasks yesterday
@@ -48,7 +49,7 @@ def main():
 
         if action == False:
             break
-        
+
         if not action:
             continue
         
