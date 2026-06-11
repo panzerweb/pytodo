@@ -1,5 +1,4 @@
 from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
-from pytodo.json_services import *
 from pytodo.data.app_services import create, bulkCreate, read, update, delete, readByCategoryOrStatus, findTaskById
 from pytodo.utils.object_cleaner import clean
 from datetime import date, timedelta

@@ -44,7 +44,7 @@ def main():
         print(f"Current command: {command}")
 
         if command is None:
-            print("Unknown Command, please refer to the suggested prompts 'Voice' section")
+            print("Unknown Command or Incomplete Command: please refer to the suggested prompts 'Voice' section")
             print("Type 'help', or 'assist' to show guide")
             continue
 
