@@ -8,39 +8,34 @@ DB_PATH = os.path.join(APP_DIR, "pytodo.db")
 
 def activateDb():
     try:
+        # print(f"DB Path: {DB_PATH}")
+
         with sqlite3.connect(DB_PATH) as connection:
-            connection.execute("PRAGMA foreign_keys = ON")
             cursor = connection.cursor()
 
-            # Let's create the table tasks
-            create_table_query = '''
+            cursor.execute("""
             CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL DEFAULT '',
                 description TEXT NOT NULL DEFAULT '',
                 category TEXT NOT NULL DEFAULT '',
                 status TEXT NOT NULL DEFAULT 'incomplete',
-                CHECK (status IN ('complete', 'incomplete')),
-                created_at DATE NOT NULL DEFAULT CURRENT_DATE
+                created_at DATE NOT NULL DEFAULT CURRENT_DATE,
+                CHECK (status IN ('complete', 'incomplete'))
             );
-            '''
-
-            # Only use this to alter a table and comment other query
-            # alter_query = '''
-            # ALTER TABLE tasks 
-            # ADD COLUMN created_at DATE NOT NULL DEFAULT CURRENT_DATE;
-            # '''
-
-            create_index_query = '''
-            CREATE INDEX IF NOT EXISTS idx_task_status 
-            ON tasks(status);
-            '''
-
-            cursor.execute(create_table_query)
-            # cursor.execute(alter_query)
-            cursor.execute(create_index_query)
+            """)
 
             connection.commit()
+
+            cursor.execute("""
+                SELECT name
+                FROM sqlite_master
+                WHERE type='table';
+            """)
+
+            # print("Tables:", cursor.fetchall())
+
+            # print("Database initialized successfully.")
 
     except sqlite3.Error as e:
     # Fix 3: Catch specific errors and print the message for debugging
