@@ -1,6 +1,6 @@
 # This will be functions that will reduce the massive if-elif-else statement
 # in the main.py
-from pytodo.services.task_cubit import createTask, bulkAddTasks, readAllTask, updateTask, deleteTask, readTaskByDaysAgo, searchTasksByDate, toggleTask, findTasksByCategoryOrStatus
+from pytodo.services.task_cubit import createTask, bulkAddTasks, readAllTask, updateTask, deleteTask, readTaskByDaysAgo, searchTasksByDate, toggleTask, findTasksByCategoryOrStatus, showFirstTaskDetails
 from pytodo.services.statistics_cubit import getStatistics
 from pytodo.models.task_entity import TaskCreateDTO
 from pytodo.utils.commands import *
@@ -37,6 +37,9 @@ def bulkAddTaskModule():
 def updateTaskModule():
     try:
         taskId = int(input('Task Id: ').strip())
+        
+        showFirstTaskDetails(taskId=taskId)
+
         taskName = input('Name: ').strip()
         taskDescription = input("Description: ").strip()
         taskCategory = input("Category: ").strip()
@@ -49,6 +52,8 @@ def updateTaskModule():
 def deleteTaskModule():
     try:
         taskId = int(input('Task Id: ').strip())
+
+        showFirstTaskDetails(taskId=taskId)
 
         deleteTask(taskId=taskId)
     
@@ -85,7 +90,10 @@ def toggleTaskModule():
     print("Toggle task")
     try:
         taskId = int(input('Task Id: ').strip())
-        taskStatus = input("Toggle status (y/n): ").lower().strip()
+
+        showFirstTaskDetails(taskId=taskId)
+
+        taskStatus = input("Toggle status as complete? (y/n): ").lower().strip()
 
         toggleTask(taskId=taskId, status=taskStatus)
     

@@ -57,6 +57,40 @@ def bulkCreate(tasks: List[TaskCreateDTO]):
     except Exception as e:
         print(f"Unexpected error: {e}")
         return False
+    
+def findTaskById(taskId: int) -> TaskEntity:
+    try:
+        with sqlite3.connect(DATABASE_NAME) as connection:
+            cursor = connection.cursor()
+
+            find_task_by_id_query = """
+            SELECT * FROM tasks WHERE id = ?
+            """
+
+            cursor.execute(find_task_by_id_query, (taskId,))
+
+            result = cursor.fetchone()
+
+            if result is None:
+                return None
+
+            return TaskEntity(
+                id=result[0],
+                name=result[1],
+                description=result[2],
+                category=result[3],
+                status=result[4],
+                created_at=result[5]
+            )
+
+        
+    except sqlite3.Error as e:
+        print(f"Fetching of task failed: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return None
+
 
 # Reading of tasks with optional date parameter
 def read(dateParams = None) -> List[TaskEntity]:
@@ -83,7 +117,7 @@ def read(dateParams = None) -> List[TaskEntity]:
             return all_tasks
         
     except sqlite3.Error as e:
-        print(f"Fetching of tasks failed {e}")
+        print(f"Fetching of tasks failed: {e}")
         return []
     except Exception as e:
         print(f"Unexpected error: {e}")

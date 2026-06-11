@@ -1,6 +1,6 @@
 from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
 from pytodo.json_services import *
-from pytodo.data.app_services import create, bulkCreate, read, update, delete, readByCategoryOrStatus
+from pytodo.data.app_services import create, bulkCreate, read, update, delete, readByCategoryOrStatus, findTaskById
 from pytodo.utils.object_cleaner import clean
 from datetime import date, timedelta
 from colorama import Fore, Style, init
@@ -152,3 +152,19 @@ def deleteTask(taskId: int):
         print("Task deleted successfully")
     else:
         print("Task deletion failed")
+
+# Supplementary function for one task selection methods such as update, delete, toggle
+def showFirstTaskDetails(taskId: int) -> None:
+    task = findTaskById(taskId=taskId)
+
+    if task is None:
+        print("Task not found")
+        return
+
+    print(Fore.YELLOW + Style.BRIGHT + "===== Task Found =====")
+
+    df = pd.DataFrame([task.to_dict()])  # wrap in list
+
+    print(df)
+
+    print(Fore.YELLOW + Style.BRIGHT + "=============================")
