@@ -1,8 +1,14 @@
 import sqlite3
+import os
+
+APP_DIR = os.path.join(os.getenv("APPDATA"), "PyTodo")
+os.makedirs(APP_DIR, exist_ok=True)
+
+DB_PATH = os.path.join(APP_DIR, "pytodo.db")
 
 def activateDb():
     try:
-        with sqlite3.connect('pytodo.db') as connection:
+        with sqlite3.connect(DB_PATH) as connection:
             connection.execute("PRAGMA foreign_keys = ON")
             cursor = connection.cursor()
 
@@ -36,7 +42,6 @@ def activateDb():
 
             connection.commit()
 
-            print("Database and Table is created and successfully connected")
     except sqlite3.Error as e:
     # Fix 3: Catch specific errors and print the message for debugging
         print(f"Database error: {e}")

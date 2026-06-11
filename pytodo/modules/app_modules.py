@@ -37,7 +37,7 @@ def bulkAddTaskModule():
 def updateTaskModule():
     try:
         taskId = int(input('Task Id: ').strip())
-        
+
         showFirstTaskDetails(taskId=taskId)
 
         taskName = input('Name: ').strip()
@@ -80,7 +80,7 @@ def findTasksByCategoryOrStatusModule():
     category = input("Find Category: ").lower().strip()
     status = input("Find Status (complete or incomplete): ").lower().strip()
 
-    if category == '' or status == '':
+    if category == '' and status == '':
         print("Empty filter, can't return tasks")
         return
 
