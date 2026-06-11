@@ -1,7 +1,7 @@
 # This will be functions that will reduce the massive if-elif-else statement
 # in the main.py
-from pytodo.services.task_cubit import createTask, bulkAddTasks, readAllTask, updateTask, deleteTask, readTaskByDaysAgo, searchTasksByDate, toggleTask
-from pytodo.services.statistics_cubit import getStatsCount
+from pytodo.services.task_cubit import createTask, bulkAddTasks, readAllTask, updateTask, deleteTask, readTaskByDaysAgo, searchTasksByDate, toggleTask, findTasksByCategoryOrStatus
+from pytodo.services.statistics_cubit import getStatistics
 from pytodo.models.task_entity import TaskCreateDTO
 from pytodo.utils.commands import *
 
@@ -13,23 +13,26 @@ def addTaskModule():
     createTask(taskName, taskDescription, taskCategory)
 
 def bulkAddTaskModule():
-    tasks_count = int(input("How many tasks: ").strip())
-    listOfTasks: list[TaskCreateDTO] = []
+    try:
+        tasks_count = int(input("How many tasks: ").strip())
+        listOfTasks: list[TaskCreateDTO] = []
 
-    for i in range(tasks_count):
-        print(f"Creating Task {i + 1}")
+        for i in range(tasks_count):
+            print(f"Creating Task {i + 1}")
 
-        taskName = input("Task name: ")
-        taskDescription = input("Description: ")
-        taskCategory = input("Category: ")
+            taskName = input("Task name: ")
+            taskDescription = input("Description: ")
+            taskCategory = input("Category: ")
 
-        if taskName == '' or taskDescription == '' or taskCategory == '':
-            print("Please fill all the fields required")
-            break
+            if taskName == '' or taskDescription == '' or taskCategory == '':
+                print("Please fill all the fields required")
+                break
 
-        listOfTasks.append(TaskCreateDTO(name=taskName, description=taskDescription, category=taskCategory))
+            listOfTasks.append(TaskCreateDTO(name=taskName, description=taskDescription, category=taskCategory))
 
-    bulkAddTasks(listOfTasks)
+        bulkAddTasks(listOfTasks)
+    except ValueError:
+        print("What you input is not an integer")
 
 def updateTaskModule():
     try:
@@ -68,6 +71,16 @@ def searchTasksByDateModule():
             
     searchTasksByDate(specifiedDate=specificDate)
 
+def findTasksByCategoryOrStatusModule():
+    category = input("Find Category: ").lower().strip()
+    status = input("Find Status (complete or incomplete): ").lower().strip()
+
+    if category == '' or status == '':
+        print("Empty filter, can't return tasks")
+        return
+
+    findTasksByCategoryOrStatus(category=category, status=status)
+
 def toggleTaskModule():
     print("Toggle task")
     try:
@@ -80,7 +93,7 @@ def toggleTaskModule():
         print("Task Id input is not an integer")
 
 def getStatsCountModule():
-    getStatsCount()
+    getStatistics()
 
 def showHelpCommandModule():
     show_commands()

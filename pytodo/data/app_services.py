@@ -58,7 +58,7 @@ def bulkCreate(tasks: List[TaskCreateDTO]):
         print(f"Unexpected error: {e}")
         return False
 
-# Reading of tasks with optional parameters
+# Reading of tasks with optional date parameter
 def read(dateParams = None) -> List[TaskEntity]:
     try:
         with sqlite3.connect(DATABASE_NAME) as connection:
@@ -85,6 +85,57 @@ def read(dateParams = None) -> List[TaskEntity]:
     except sqlite3.Error as e:
         print(f"Fetching of tasks failed {e}")
         return []
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return []
+
+# Find all tasks by category and status, both are optional
+def readByCategoryOrStatus(
+    category: str | None = None,
+    status: str | None = None
+) -> list[TaskEntity]:
+    try:
+        with sqlite3.connect(DATABASE_NAME) as connection:
+            cursor = connection.cursor()
+
+            query = "SELECT * FROM tasks"
+            conditions = []
+            parameters = []
+
+            if category:
+                conditions.append("category = ?")
+                parameters.append(category)
+
+            if status:
+                conditions.append("status = ?")
+                parameters.append(status)
+
+            if conditions:
+                query += " WHERE " + " AND ".join(conditions)
+
+            cursor.execute(query, parameters)
+
+            rows = cursor.fetchall()
+
+            tasks: list[TaskEntity] = []
+
+            for row in rows:
+                task = TaskEntity(
+                    id=row[0],
+                    name=row[1],
+                    description=row[2],
+                    category=row[3],
+                    status=row[4],
+                    created_at=row[5]
+                )
+                tasks.append(task)
+
+            return tasks
+
+    except sqlite3.Error as e:
+        print(f"Fetching of tasks failed: {e}")
+        return []
+
     except Exception as e:
         print(f"Unexpected error: {e}")
         return []

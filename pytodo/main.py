@@ -2,6 +2,7 @@ from datetime import date
 from colorama import Fore, Style, init
 import os
 
+from pytodo.config.database import activateDb
 from pytodo.menu import *
 from pytodo.utils.commands import *
 
@@ -21,6 +22,7 @@ init(autoreset=True)
 
 def main():
     # init
+    activateDb() # Activate Database and Create the Table if not exist
     clear_screen()
     show_title()
     show_commands()
@@ -42,7 +44,8 @@ def main():
         print(f"Current command: {command}")
 
         if command is None:
-            print("Unknown Command")
+            print("Unknown Command, please refer to the suggested prompts 'Voice' section")
+            print("Type 'help', or 'assist' to show guide")
             continue
 
         action = execute_command(command=command)

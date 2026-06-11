@@ -3,7 +3,7 @@ from pytodo.utils.commands import *
 
 def execute_command(command: str):
 
-    if command == COMMANDS[10].action:
+    if command == COMMANDS[11].action:
         print("Quitting...")
         return False
 
@@ -26,15 +26,18 @@ def execute_command(command: str):
         toggleTaskModule()
 
     elif command == COMMANDS[6].action:
-        bulkAddTaskModule()
+        findTasksByCategoryOrStatusModule()
 
     elif command == COMMANDS[7].action:
-        searchTasksByDateModule()
+        bulkAddTaskModule()
 
     elif command == COMMANDS[8].action:
-        showHelpCommandModule()
+        searchTasksByDateModule()
 
     elif command == COMMANDS[9].action:
+        showHelpCommandModule()
+
+    elif command == COMMANDS[10].action:
         getStatsCountModule()
 
     return True

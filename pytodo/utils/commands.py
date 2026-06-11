@@ -5,68 +5,75 @@ COMMANDS = [
     CommandDictionary(
         "add",
         "Insert a new task",
-        ["add", "create", "insert", "new"]
-    ),
+        ["add task", "create task", "insert task", "new task", "add a task", "create a task", "insert a task"]
+    ), # 0
 
     CommandDictionary(
         "update",
         "Update a task",
-        ["update", "edit", "modify"]
-    ),
+        ["update task", "edit a task", "modify a task", "update a task", "edit a task", "modify a task"]
+    ), # 1
 
     CommandDictionary(
         "read",
         "Read all tasks",
-        ["read", "show", "list", "display", "view"]
-    ),
+        ["read all tasks", "show all tasks", "list all tasks", "display all tasks", "view all tasks", "view tasks", "read tasks"]
+    ), # 2
 
     CommandDictionary(
         "delete",
         "Delete a task",
-        ["delete", "remove", "erase"]
-    ),
+        ["delete", "remove", "erase", "delete a task", "remove task", "remove a task", "erase task"]
+    ), # 3
 
     CommandDictionary(
         "days_ago",
         "Read tasks by how many days ago",
-        ["days ago", "yesterday"]
-    ),
+        ["recent tasks", "recent task","tasks from last days", "tasks from days ago"]
+    ), # 4
 
     CommandDictionary(
         "toggle",
         "Toggle status of a task",
-        ["toggle", "complete", "incomplete", "finish"]
-    ),
+        ["toggle tasks", "mark a task", "mark task", "mark tasks", "toggle task"]
+    ), # 5
+
+    CommandDictionary(
+        "find_cat_stat",
+        "Find tasks by category or status",
+        ["find category", "find status", "find tasks", "find"]
+    ), # 6
+    
 
     CommandDictionary(
         "bulk_add",
         "Add multiple tasks in one command",
-        ["bulk", "multiple"]
-    ),
+        ["create many", "insert many","create multiple", "insert multiple","add multiple tasks", "bulk add tasks", "create many tasks", "insert multiple tasks"]
+    ), # 7
 
     CommandDictionary(
         "search_date",
         "Search tasks by date",
-        ["search", "find date"]
-    ),
+        ["search by date","search tasks by date", "find tasks by date", "tasks on date", "filter by date"]
+    ), # 8
 
     CommandDictionary(
         "help",
         "Show all commands",
-        ["help", "commands"]
-    ),
+        ["help", "show commands", "list commands", "what can I do", "available commands", 'assist']
+    ), # 9
 
     CommandDictionary(
         "stats",
         "Shows user statistics",
-        ["stats", "statistics"]
-    ),
+        ["show stat", "show stats", "show my stats", "show statistics", "stats", "statistics"]
+    ), # 10
 
     CommandDictionary(
         "quit",
         "Exit the program",
         ["quit", "exit", "close"]
-    ),
+    ), # 11
 ]
 
 def show_commands():
@@ -82,9 +89,10 @@ def show_commands():
         )
 
         print(
-            Fore.LIGHTBLACK_EX + f"   Voice: {natural}"
+            Fore.LIGHTBLACK_EX + f"   Voice: {natural} \n"
         )
 
+    print(Fore.YELLOW + Style.BRIGHT + "Caution: " + Fore.GREEN + "This is a rule-based command, please follow the suggested prompts when doing either voice or non-voice command. \n")
     print(Fore.LIGHTBLACK_EX + "\n────────────────────────────────────────────────────────")
 
 if __name__ == "__main__":

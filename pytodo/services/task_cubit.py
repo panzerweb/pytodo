@@ -1,6 +1,6 @@
 from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
 from pytodo.json_services import *
-from pytodo.data.app_services import create, bulkCreate, read, update, delete
+from pytodo.data.app_services import create, bulkCreate, read, update, delete, readByCategoryOrStatus
 from pytodo.utils.object_cleaner import clean
 from datetime import date, timedelta
 from colorama import Fore, Style, init
@@ -78,6 +78,21 @@ def searchTasksByDate(specifiedDate: str) -> None:
         print("Empty tasks, check message or create one")
 
     print(Fore.YELLOW + Style.BRIGHT + f"===== Display Tasks for {specifiedDate} =====")
+
+    df = pd.DataFrame([task.to_dict() for task in tasks])
+
+    print(df);
+
+    print(Fore.YELLOW + Style.BRIGHT + "=============================")
+
+# Finding tasks either by category or status
+def findTasksByCategoryOrStatus(category: str, status: str) -> None:
+    tasks: list[TaskEntity] = readByCategoryOrStatus(category=category, status=status)
+
+    if len(tasks) == 0:
+        print("Empty tasks, check message or create one")
+
+    print(Fore.YELLOW + Style.BRIGHT + f"===== Found Tasks ({category, status}): {len(tasks)} =====")
 
     df = pd.DataFrame([task.to_dict() for task in tasks])
 
