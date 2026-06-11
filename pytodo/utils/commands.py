@@ -17,7 +17,7 @@ COMMANDS = [
     CommandDictionary(
         "read",
         "Read all tasks",
-        ["read all tasks", "show all tasks", "list all tasks", "display all tasks", "view all tasks", "view tasks", "read tasks"]
+        ["read all", "show all", "list all", "display all", "view all"]
     ), # 2
 
     CommandDictionary(
@@ -29,32 +29,32 @@ COMMANDS = [
     CommandDictionary(
         "days_ago",
         "Read tasks by how many days ago",
-        ["recent tasks", "recent task","tasks from last days", "tasks from days ago"]
+        ["recent task", "recent task","task from last days", "task from days ago"]
     ), # 4
 
     CommandDictionary(
         "toggle",
         "Toggle status of a task",
-        ["toggle tasks", "mark a task", "mark task", "mark tasks", "toggle task"]
+        ["toggle task", "mark a task", "mark task", "mark task", "toggle task"]
     ), # 5
 
     CommandDictionary(
         "find_cat_stat",
         "Find tasks by category or status",
-        ["find category", "find status", "find tasks", "find"]
+        ["find category", "find status", "find task", "find"]
     ), # 6
     
 
     CommandDictionary(
         "bulk_add",
         "Add multiple tasks in one command",
-        ["create many", "insert many","create multiple", "insert multiple","add multiple tasks", "bulk add tasks", "create many tasks", "insert multiple tasks"]
+        ["create many", "insert many","create multiple", "insert multiple","add multiple task", "bulk add task", "create many task", "insert multiple task"]
     ), # 7
 
     CommandDictionary(
         "search_date",
         "Search tasks by date",
-        ["search by date","search tasks by date", "find tasks by date", "tasks on date", "filter by date"]
+        ["search by date","search task by date", "find task by date", "task on date", "filter by date"]
     ), # 8
 
     CommandDictionary(

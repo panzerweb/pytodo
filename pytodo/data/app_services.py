@@ -2,8 +2,14 @@ from pytodo.models.task_entity import TaskEntity, TaskCreateDTO, TaskUpdateDTO
 from typing import List
 from datetime import date
 import sqlite3
+import os
 
-DATABASE_NAME: str = 'pytodo.db'
+APP_DIR = os.path.join(os.getenv("APPDATA"), "PyTodo")
+os.makedirs(APP_DIR, exist_ok=True)
+
+DATABASE_NAME = os.path.join(APP_DIR, "pytodo.db")
+
+# DATABASE_NAME: str = 'pytodo.db'
 
 # Create module
 def create(task: TaskCreateDTO) -> bool:

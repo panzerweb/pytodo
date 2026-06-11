@@ -119,7 +119,25 @@ Pull requests are welcome — whether it’s bug fixes, new features, or better 
 
 Developer-friendly, simple productivity tools.
 
+## Installation (Development Environment):
+
+#### After code changes and verifying its good, do this:
+`bash
+pyinstaller --onefile pytodo/main.py ^
+--hidden-import=speech_recognition ^
+--hidden-import=pyaudio
+`
+
+**change main.exe in dist/main.exe to pytodo.exe**
+
+#### Open InnoDB Setup
+
+Import the `pytodo_installer.iss` and build
+
+
+
 # License
 
 This project is licensed under the MIT License
  — feel free to modify and use it for personal or commercial projects.
+
